@@ -37,19 +37,10 @@ class CipherImplTest {
 
 
     @ParameterizedTest
-    @MethodSource("encodeExceptionProvider")
+    @MethodSource("exceptionProvider")
     void encode_given_invalidInputs_should_throws_exception(String message, String cipher, Exception exception) {
         assertThrows(exception.getClass(), () -> cipherService.encode(message, cipher));
 
-    }
-
-    public static Stream<Arguments> encodeExceptionProvider() {
-        return Stream.of(
-                Arguments.of("", "vigilance", new IllegalArgumentException()),
-                Arguments.of("meetmebythetree", "", new IllegalArgumentException()),
-                Arguments.of(null, "", new NullPointerException()),
-                Arguments.of("meetmebythetree", null, new NullPointerException())
-        );
     }
 
     @ParameterizedTest
@@ -58,10 +49,28 @@ class CipherImplTest {
         assertEquals(cipherService.decode(encodedMessage, cipher), message);
     }
 
+    @ParameterizedTest
+    @MethodSource("exceptionProvider")
+    void decode_given_invalidInputs_should_throws_exception(String message, String cipher, Exception exception) {
+        assertThrows(exception.getClass(), () -> cipherService.encode(message, cipher));
+
+    }
+
     public static Stream<Arguments> provider() {
         return Stream.of(
                 Arguments.of("meetmeontuesdayeveningatseven", "vigilance", "hmkbxebpxpmyllyrxiiqtoltfgzzv"),
                 Arguments.of("meetmebythetree", "scones", "egsgqwtahuiljgs")
         );
     }
+
+
+    public static Stream<Arguments> exceptionProvider() {
+        return Stream.of(
+                Arguments.of("", "vigilance", new IllegalArgumentException()),
+                Arguments.of("meetmebythetree", "", new IllegalArgumentException()),
+                Arguments.of(null, "", new NullPointerException()),
+                Arguments.of("meetmebythetree", null, new NullPointerException())
+        );
+    }
+
 }

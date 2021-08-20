@@ -52,7 +52,11 @@ public class CipherImpl implements Cipher {
     @Override
     public String decode(String encodedMessage, String cipher) {
 
+        Objects.requireNonNull(encodedMessage, "MESSAGE should not be null");
+        Objects.requireNonNull(cipher, "CIPHER should not be null");
+
         String newCipher = utilCipher.correctCipherLength(cipher, encodedMessage.length());
+
         ArrayList<Character> messageArray=new ArrayList<>();
         IntStream.range(0, newCipher.length()).sequential()
                 .mapToObj(letter -> {

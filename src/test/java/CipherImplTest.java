@@ -28,18 +28,13 @@ class CipherImplTest {
     }
 
     @ParameterizedTest
-    @MethodSource("encodeProvider")
+    @MethodSource("provider")
     void encode_should_processCorrect(String message, String cipher, String expected) {
         String encodedMessage = cipherService.encode(message, cipher);
         assertEquals(expected, encodedMessage);
     }
 
-    public static Stream<Arguments> encodeProvider() {
-        return Stream.of(
-                Arguments.of("meetmeontuesdayeveningatseven", "vigilance", "hmkbxebpxpmyllyrxiiqtoltfgzzv"),
-                Arguments.of("meetmebythetree", "scones", "egsgqwtahuiljgs")
-        );
-    }
+
 
     @ParameterizedTest
     @MethodSource("encodeExceptionProvider")
@@ -57,12 +52,16 @@ class CipherImplTest {
         );
     }
 
+    @ParameterizedTest
+    @MethodSource("provider")
+    public void decode_should_processCorrect(String message, String cipher, String encodedMessage) {
+        assertEquals(cipherService.decode(encodedMessage, cipher), message);
+    }
 
-    @Test
-    public void test() {
-
-        assertEquals(cipherService.decode("egsgqwtahuiljgs", "scones"), "meetmebythetree");
-
-
+    public static Stream<Arguments> provider() {
+        return Stream.of(
+                Arguments.of("meetmeontuesdayeveningatseven", "vigilance", "hmkbxebpxpmyllyrxiiqtoltfgzzv"),
+                Arguments.of("meetmebythetree", "scones", "egsgqwtahuiljgs")
+        );
     }
 }

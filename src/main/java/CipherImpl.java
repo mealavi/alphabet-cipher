@@ -24,7 +24,6 @@ public class CipherImpl implements Cipher {
                     cipherTable.put(alphabet[i], stringAlphabet.substring(i) + stringAlphabet.substring(0, i));
                 });
         cipherTable.forEach((s, s2) -> cipherTableStr.add(s2));
-
     }
 
 
